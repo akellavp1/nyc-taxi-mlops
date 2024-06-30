@@ -1,0 +1,9 @@
+loguru
+matplotlib
+numpy
+pandas
+pip
+python-dotenv
+scikit-learn
+dvc
+-e .
