@@ -165,3 +165,29 @@ stages:
       hash: md5
       md5: f398e785d0925f2ee652b7fd1778ceda
       size: 1588
+  plot_results:
+    cmd: python .\src\visualization\plot_results.py train.csv val.csv
+    deps:
+    - path: .\data\processed\final\train.csv
+      hash: md5
+      md5: 5f9906c51a1abce4bd8530a0bb780528
+      size: 229128192
+    - path: .\data\processed\final\val.csv
+      hash: md5
+      md5: 28da71eff09a2ce8c92c0aa06d48816c
+      size: 25463541
+    - path: .\models\models
+      hash: md5
+      md5: 66e487c3660fd244e4445b609b130327.dir
+      size: 498718
+      nfiles: 1
+    - path: .\src\visualization\plot_results.py
+      hash: md5
+      md5: ae909d9b67b4083aa92d7d8810ba1125
+      size: 2397
+    outs:
+    - path: .\plots\model_results\
+      hash: md5
+      md5: c338f2e32ecfd3c6265e0380dbe20321.dir
+      size: 18873
+      nfiles: 1
