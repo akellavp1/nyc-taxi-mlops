@@ -6,7 +6,8 @@ from sklearn.metrics import r2_score
 
 
 TARGET = 'trip_duration'
-model_name = 'xgbreg.joblib'
+
+
 
 def load_dataframe(path):
     df = pd.read_csv(path)
@@ -36,23 +37,36 @@ def main():
     current_path = Path(__file__)
     # root directory path
     root_path = current_path.parent.parent.parent
-    for ind in range(1,3):
-        # read input file path
-        data_path = root_path / 'data/processed/final' /sys.argv[ind]
-        # load the data 
-        data = load_dataframe(data_path)
-        # split the data into X and y
-        X_test, y_test = make_X_y(dataframe=data,target_column=TARGET)
-        # model path
-        model_path = root_path / 'models' / 'models' / model_name
-        # load the model
-        model = joblib.load(model_path)
-        # get predictions from model
-        y_pred = get_predictions(model=model,X=X_test)
-        # calcuate the r2 score
-        score = calculate_r2_score(y_actual=y_test,y_predicted=y_pred)
-        
-        print(f'\nThe score for dataset {sys.argv[ind]} is {score}')
+
+    # Setting models
+
+    models = ['xgb', 'rfreg', 'lgb']
+
+    # Looping through models
+    for model in models:
+        if model == 'xgb':
+            model_name = 'xgbreg.joblib'
+        elif model == 'rfreg':
+            model_name = 'rfreg.joblib'
+        else:
+            model_name = 'lightgbmreg.joblib'
+        for ind in range(1,3):
+            # read input file path
+            data_path = root_path / 'data/processed/final' /sys.argv[ind]
+            # load the data 
+            data = load_dataframe(data_path)
+            # split the data into X and y
+            X_test, y_test = make_X_y(dataframe=data,target_column=TARGET)
+            # model path
+            model_path = root_path / 'models' / 'models' / model_name
+            # load the model
+            model = joblib.load(model_path)
+            # get predictions from model
+            y_pred = get_predictions(model=model,X=X_test)
+            # calcuate the r2 score
+            score = calculate_r2_score(y_actual=y_test,y_predicted=y_pred)
+            
+            print(f'\nThe score for dataset {sys.argv[ind]} is {score}')
     
 if __name__ == "__main__":
     main()

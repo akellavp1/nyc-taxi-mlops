@@ -1,6 +1,7 @@
 import joblib
 import sys
 import pandas as pd
+import lightgbm as lgb
 from yaml import safe_load
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -49,19 +50,51 @@ def main():
     # split the data into X and y
     X_train, y_train = make_X_y(dataframe=train_data,target_column=TARGET)
     # read the parameters from params.yaml
-    # with open('params.yaml') as f:
-    #     params = safe_load(f)
-    # model_params = params['train_model']['random_forest_regressor']
-    # make the model object
-    regressor = XGBRegressor()
-    # train the model
-    regressor = train_model(model=regressor,
-                            X_train=X_train,
-                            y_train=y_train)
-    # save the model after training
-    model_output_path = root_path / 'models' / 'models'
-    model_output_path.mkdir(exist_ok=True)
-    save_model(model=regressor,save_path=model_output_path / 'xgbreg.joblib')
+    with open('params.yaml') as f:
+         params = safe_load(f)
+    
+    # Setting models
+
+    models = ['xgb', 'rfreg', 'lgb']
+
+    # Looping for different models
+    for model in models:
+        if model == 'xgb':
+            regressor = XGBRegressor()
+            file_name = 'xgbreg.joblib'
+        elif model == 'rfreg':
+            file_name = 'rfreg.joblib'
+            model_params = params['train_model']['random_forest_regressor']
+            n_estimators = model_params["n_estimators"]
+            max_depth = model_params["max_depth"]
+            verbose = model_params["verbose"]
+            n_jobs = model_params["n_jobs"]
+
+            regressor = RandomForestRegressor(
+                    n_estimators = n_estimators,
+                    max_depth = max_depth,
+                    verbose = verbose,
+                    n_jobs = n_jobs)
+        else:
+            file_name = 'lightgbmreg.joblib'
+            model_params = params['train_model']['lightgbm']
+            n_estimators = model_params["n_estimators"]
+            num_leaves = model_params["num_leaves"]
+            learning_rate = model_params["learning_rate"]
+            regressor = lgb.LGBMRegressor(
+                    n_estimators = n_estimators,
+                    num_leaves = num_leaves,
+                    learning_rate = learning_rate)
+
+    
+        # train the model
+        regressor = train_model(model=regressor,
+                                X_train=X_train,
+                                y_train=y_train)
+        # save the model after training
+        model_output_path = root_path / 'models' / 'models'
+        model_output_path.mkdir(exist_ok=True)
+        save_model(model=regressor,save_path=model_output_path / file_name)
     
     
 if __name__ == "__main__":
