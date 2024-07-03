@@ -1,0 +1,16 @@
+name: Test CI-CD pipeline
+
+on: 
+    push: 
+        branches: [master]
+
+jobs:
+    testing:
+        runs-on: ubuntu-latest
+        steps:
+            - run:
+                echo "Install Python"
+                
+            
+   
+  

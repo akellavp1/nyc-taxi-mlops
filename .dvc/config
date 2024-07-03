@@ -1,0 +1,4 @@
+[core]
+    remote = dvc-local
+['remote "dvc-local"']
+    url = D:\nyc-taxi-dvc-remote
