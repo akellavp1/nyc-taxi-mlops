@@ -50,7 +50,7 @@ COPY --chown=appuser:appuser requirements.txt .
 # Change ownership and permissions
 
 #RUN chown -R appuser:appuser /app
-#RUN chmod 755 /app
+RUN chmod -R 775 /app
 
 # Expose the port that the application listens on.
 EXPOSE 8000
