@@ -13,9 +13,9 @@ app = FastAPI(title="NYC Taxi Trip Duration Predictor", description="NYC Taxi Tr
 
 # Set paths
 current_file_path = Path(__file__)
-print()
 
-model_path = current_file_path.parent / "models" / "models"/ "xgbreg.joblib"
+
+model_path = current_file_path.parent / "container_models" / "models"/ "xgbreg.joblib"
 preprocessor_path = model_path.parent.parent / "transformers" / "preprocessor.joblib"
 output_transformer_path = preprocessor_path.parent / "output_transformer.joblib"
 
@@ -61,7 +61,7 @@ def do_predictions(test_data:PredictionDataset):
     )
 
     predictions = model_pipe.predict(X_test).reshape(-1,1)
-    
+
     output_inverse_transformed = output_transformer.inverse_transform(predictions)[0].item()
 
     return f"Trip duration for the trip is {output_inverse_transformed:.2f} minutes"
