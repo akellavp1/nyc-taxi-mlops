@@ -42,15 +42,15 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 USER appuser
 
 # Copy the source code into the container.
-COPY ./container_models/ ./container_models/
-COPY app.py .
-COPY data_models.py .
-COPY requirements.txt .
+COPY --chown=appuser:appuser ./container_models/ ./container_models/
+COPY --chown=appuser:appuser app.py .
+COPY --chown=appuser:appuser data_models.py .
+COPY --chown=appuser:appuser requirements.txt .
 
 # Change ownership and permissions
 
-RUN chown -R appuser:appuser /app
-RUN chmod 755 /app
+#RUN chown -R appuser:appuser /app
+#RUN chmod 755 /app
 
 # Expose the port that the application listens on.
 EXPOSE 8000
