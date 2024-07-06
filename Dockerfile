@@ -47,6 +47,11 @@ COPY app.py .
 COPY data_models.py .
 COPY requirements.txt .
 
+# Change ownership and permissions
+
+RUN chown -R appuser:appuser /app
+RUN chmod 755 /app
+
 # Expose the port that the application listens on.
 EXPOSE 8000
 
