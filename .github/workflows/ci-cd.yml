@@ -83,7 +83,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           IMAGE_TAG: latest
         run: |
-          docker login -u nyctaxi -p $(aws ecr get-login-password --region $AWS_REGION) $ECR_REGISTRY
+          docker login -u AWS -p $(aws ecr get-login-password --region $AWS_REGION) $ECR_REGISTRY
           sudo chmod 666 /var/run/docker.sock
           docker pull $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
       
