@@ -50,7 +50,7 @@ COPY --chown=appuser:appuser requirements.txt .
 # Change ownership and permissions
 
 #RUN chown -R appuser:appuser /app
-RUN chmod -R 775 /app
+RUN chmod +x 775 app.py
 
 # Expose the port that the application listens on.
 EXPOSE 8000
