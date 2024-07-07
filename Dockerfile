@@ -25,7 +25,7 @@ RUN adduser \
     --disabled-password \
     --gecos "" \
     --home "/nonexistent" \
-    --shell "/sbin/nologin" \
+    --shell "/sbin/bash" \
     --no-create-home \
     --uid "${UID}" \
     appuser
@@ -39,7 +39,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
     python -m pip install -r requirements.txt
 
 # Switch to the non-privileged user to run the application.
-USER root
+USER appuser
 
 # Copy the source code into the container.
 COPY --chown=appuser:appuser ./container_models/ ./container_models/
@@ -56,4 +56,5 @@ RUN chmod +x app.py
 EXPOSE 8000
 
 # Run the application.
-CMD [ "python","app.py" ]
+CMD [ "python", "app.py" ]
+#CMD ["uvicorn", "fastapi:app", "--host", "0.0.0.0", "--port", "8000"]
