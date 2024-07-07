@@ -56,5 +56,6 @@ RUN chmod +x app.py
 EXPOSE 8000
 
 # Run the application.
-CMD [ "python", "app.py" ]
+#CMD [ "python", "app.py" ]
 #CMD ["uvicorn", "fastapi:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["fastapi", "run", "app.py", "--port", "8000"]
